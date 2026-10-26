@@ -5,13 +5,13 @@
 
 ## Objetivo
 
-Trocar a identidade visual da interface (antes marinho e dourado) por uma nova, inspirada em um banco digital brasileiro, sem mexer em estrutura, dados nem lógica. O Lead Scorer continua sendo uma página estática que prioriza deals de CRM e abre por duplo-clique (`file://`).
+Trocar a identidade visual da interface (antes marinho e dourado) por um tema azul (azul `#0021AF`, Poppins, botões em pílula), sem mexer em estrutura, dados nem lógica. O Lead Scorer continua sendo uma página estática que prioriza deals de CRM e abre por duplo-clique (`file://`).
 
-## Origem da paleta
+## Paleta
 
-Valores extraídos dos estilos computados de https://www.bancobs2.com.br em 26/10/2026:
+Valores do tema:
 
-| Valor | Papel no site de referência | Papel aqui |
+| Valor | Descrição | Papel aqui |
 |---|---|---|
 | `#0021AF` | Cabeçalho, botões primários, texto de destaque | Cabeçalho, botão primário, links, foco |
 | `#008FF9` | Azul de destaque | Destaque da frase de resumo e barra de progresso, só sobre o bloco escuro |
@@ -21,17 +21,17 @@ Valores extraídos dos estilos computados de https://www.bancobs2.com.br em 26/1
 | Poppins 700 / 400 / 600 | Títulos / corpo / ênfase | Mesma divisão, auto-hospedada |
 | Botão em pílula (30px) | Primário azul, secundário branco | Mesmo formato |
 
-Derivados (não extraídos): `#001A8A`, `#001262` (hover e pressionado do primário) e `#2D55FF` (azul principal clareado, só no tema escuro).
+Derivados: `#001A8A`, `#001262` (hover e pressionado do primário) e `#2D55FF` (azul principal clareado, só no tema escuro).
 
-## Regras de não confusão com canal oficial
+## Regras para não parecer canal oficial
 
-O site de referência abre com um aviso antifraude, e esta página é pública. Regras aplicadas e verificadas por `check_aviso_demo` (em `tools/check_views.py`, 5 telas × 390 e 1280 px):
+Esta página é pública e deve deixar claro que é uma demonstração. Regras aplicadas e verificadas por `check_aviso_demo` (em `tools/check_views.py`, 5 telas × 390 e 1280 px):
 
 - sem logotipo (a marca da barra é só o texto "Lead Scorer"; o losango em CSS da identidade anterior foi removido);
-- sem o nome do banco na interface, exceto no rodapé obrigatório;
+- sem marca de terceiros na interface;
 - nada de login ou abertura de conta: nenhum campo de senha ou e-mail, nenhum botão "Entrar";
 - a tela "Quem é você?" ganhou o rótulo "Visão de demonstração" e o texto "Não é um login: não existe conta nem senha, e o nome só filtra o que aparece na tela";
-- rodapé visível em todas as telas, fora do `#app` (aparece até sem `data.js`), com o texto exato: "Projeto pessoal de demonstração com dados públicos e fictícios (dataset CRM Sales Predictive Analytics, Kaggle, CC0). Não é um produto, serviço ou canal do Banco BS2.";
+- rodapé visível em todas as telas, fora do `#app` (aparece até sem `data.js`), com o texto exato: "Projeto pessoal de demonstração com dados públicos e fictícios (dataset CRM Sales Predictive Analytics, Kaggle, CC0).";
 - o rótulo do link da visão completa deixou de citar avaliação: "Ver a carteira completa (RevOps)".
 
 ## O que mudou
@@ -39,9 +39,9 @@ O site de referência abre com um aviso antifraude, e esta página é pública. 
 - `solution/app/fonts/`: entram `poppins-latin-{400,600,700}-normal.woff2` e `poppins-LICENSE` (OFL); saem Manrope e Libre Baskerville com as licenças.
 - `solution/app/style.css`: tokens reescritos (paleta da marca, semânticos, status), botões em pílula, destaque da frase de resumo em Poppins 700 azul de destaque (antes itálico serifado), `font-synthesis: none`, rodapé de aviso.
 - `solution/app/index.html`: `theme-color`, descrição, marca sem losango, texto da entrada, rodapé de aviso (com a linha "Dados de ..." dentro dele, para haver um único `contentinfo`).
-- `solution/tools/check_app.py`: pares de contraste reescritos para os tokens novos; a varredura de dígitos do HTML ignora o rodapé de aviso (ele tem "CC0" e o nome do banco), que é conferido à parte.
+- `solution/tools/check_app.py`: pares de contraste reescritos para os tokens novos; a varredura de dígitos do HTML ignora o rodapé de aviso (ele tem "CC0"), que é conferido à parte.
 - `solution/tools/check_views.py`: cor de fundo dos dois temas, checagem de fontes (Poppins 400, 600 e 700, nenhuma outra, destaque em 700 sem itálico) e a checagem nova `check_aviso_demo`.
-- `solution/tools/design_shots.py`: grava em `process-log/screenshots/tema-bs2/`.
+- `solution/tools/design_shots.py`: grava em `process-log/screenshots/tema-azul/`.
 - `docs/DESIGN.md`: reescrito.
 - `solution/app/app.js`: **não foi alterado.**
 
@@ -146,7 +146,7 @@ Axe-core 4.9.1 (`tools/check_views.py`): 40 execuções (10 telas × 1280 e 390 
 1. **Contraste do tema escuro.** A primeira versão dos tokens reprovou dois pares: texto branco sobre o hover do primário no escuro (4,23:1) e o azul de destaque `#008FF9` sobre o resumo escuro (4,39:1). Corrigidos com o hover `#2549EE` e o resumo `#101C60`.
 2. **BOM sem querer.** `Set-Content -Encoding UTF8` do PowerShell 5.1 gravou BOM em CSS, HTML e scripts Python. Notado quando o `ast.parse` reclamou de U+FEFF; BOM removido de todos os arquivos tocados.
 3. **Apelido do PowerShell.** Uma função auxiliar chamada `R` colidiu com o apelido de `Invoke-History`, e a primeira rodada de substituições não aplicou nada. Renomeada.
-4. **Checagem que nunca acharia nada.** A regex de "nome do banco fora do rodapé" foi escrita com `\\b` dentro de string crua, o que casa uma barra literal. A primeira execução passou por engano; ao corrigir para `\b`, apareceu um falso positivo em "banco de dados" (texto legítimo do aviso de transparência), tratado na própria regex.
+4. **Checagem que nunca acharia nada.** A regex de "nome de marca fora do rodapé" foi escrita com `\\b` dentro de string crua, o que casa uma barra literal. A primeira execução passou por engano; ao corrigir para `\b`, apareceu um falso positivo em "banco de dados" (texto legítimo do aviso de transparência), tratado na própria regex.
 5. **Itálico falso.** "Conta não informada" tinha `font-style: italic`, e a Poppins carregada não tem itálico, então o navegador inclinava os glifos. Visto na rodada 1.
 6. **Dois `contentinfo`.** Com o rodapé de aviso novo e o `<footer id="foot">` antigo, o axe acusou `landmark-no-duplicate-contentinfo` e `region` (impacto moderado, não bloqueante). O `#foot` virou um `div` dentro do rodapé de aviso.
 7. **`text-transform`.** A checagem do rótulo "Visão de demonstração" falhou porque `inner_text` devolve o texto em caixa alta (o rótulo usa `text-transform: uppercase`); passou a comparar em minúsculas.

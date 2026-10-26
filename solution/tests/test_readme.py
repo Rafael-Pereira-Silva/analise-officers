@@ -18,7 +18,7 @@ BASE_URL = "https://rafael-pereira-silva.github.io/analise-officers/solution/app
 
 NOTICE = (
     "Projeto pessoal de demonstração com dados públicos e fictícios (dataset CRM Sales Predictive Analytics, "
-    "Kaggle, CC0). Não é um produto, serviço ou canal do Banco BS2 e não usa dados do banco."
+    "Kaggle, CC0)."
 )
 NOTE = (
     "Esta versão pública reorganiza a documentação do experimento original; métodos, números, decisões e erros "
@@ -82,10 +82,8 @@ def test_the_process_log_index_opens_with_the_note():
     assert first == f"> {NOTE}"
 
 
-def test_the_bank_is_only_named_in_the_notice_and_in_the_palette_explanation(text):
-    for line in text.splitlines():
-        if "BS2" in line:
-            assert line == f"> {NOTICE}" or "paleta" in line, line[:100]
+def test_no_mention_of_the_bank(text):
+    assert "b" + "s2" not in text.lower()
 
 
 def test_executive_summary_has_at_most_five_sentences(text):

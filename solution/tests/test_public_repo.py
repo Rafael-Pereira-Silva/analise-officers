@@ -22,6 +22,7 @@ INSENSITIVE = [
     "ban" + "ca",
     "sub" + "miss",
     "chal" + "lenge",
+    "b" + "s2",
 ]
 # Esse termo curto só conta como palavra inteira e em maiúsculas: ids de deal do dataset (ex.: "G4F8W039") não valem.
 SENSITIVE = [r"\b" + "G" + "4" + r"\b"]
@@ -30,6 +31,7 @@ EXTENSIONS = {".md", ".py", ".js", ".html", ".css"}
 SKIP_DIRS = {".git", ".venv", "venv", "__pycache__", ".pytest_cache", "node_modules"}
 RAW_DIR = config.RAW_DIR.resolve()
 VENDOR_DIR = (config.SOLUTION_DIR / "tools" / "vendor").resolve()
+PROCESSED_DIR = (config.SOLUTION_DIR / "data" / "processed").resolve()
 
 PATTERN = re.compile("|".join(INSENSITIVE), re.IGNORECASE)
 PATTERN_CASE = re.compile("|".join(SENSITIVE))
@@ -42,7 +44,7 @@ def text_files():
         if any(part in SKIP_DIRS for part in path.relative_to(config.PROJECT_DIR).parts):
             continue
         resolved = path.resolve()
-        if VENDOR_DIR in resolved.parents or RAW_DIR in resolved.parents:
+        if VENDOR_DIR in resolved.parents or RAW_DIR in resolved.parents or PROCESSED_DIR in resolved.parents:
             continue
         yield path
 
@@ -69,7 +71,7 @@ def test_the_guard_scans_the_expected_files():
 
 @pytest.mark.parametrize("text", [
     "gest" + "ão qua" + "tro", "AI " + "Master", "ai-" + "master-chal" + "lenge", "g4" + "business.com", "Processo " + "Seletivo",
-    "uma va" + "ga", "o candi" + "dato", "a ban" + "ca", "Sub" + "missão", "Chal" + "lenge 003", "o G" + "4 pediu",
+    "uma va" + "ga", "o candi" + "dato", "a ban" + "ca", "Sub" + "missão", "Chal" + "lenge 003", "o G" + "4 pediu", "Banco B" + "S2", "banco" + "b" + "s2.com.br",
 ])
 def test_the_guard_detects_each_forbidden_term(text):
     assert find_terms(text), text

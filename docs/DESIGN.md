@@ -1,6 +1,6 @@
 # Design — Lead Scorer
 
-Identidade visual do Lead Scorer: uma ferramenta de trabalho em azul, com tom direto, empresarial e confiante. A tabela de contraste abaixo é gerada a partir do `style.css` por `tools/contrast_table.py`. O registro das rodadas visuais está em [`process-log/09_tema-bs2.md`](../process-log/09_tema-bs2.md).
+Identidade visual do Lead Scorer: uma ferramenta de trabalho em azul, com tom direto, empresarial e confiante. A tabela de contraste abaixo é gerada a partir do `style.css` por `tools/contrast_table.py`. O registro das rodadas visuais está em [`process-log/09_tema-azul.md`](../process-log/09_tema-azul.md).
 
 ## 1. Direção
 
@@ -11,11 +11,11 @@ A interface é uma página estática que prioriza deals de CRM. A hierarquia é:
 - **Pílulas.** Botões com raio de 30px: primário azul com texto branco, secundário branco com texto e borda azuis.
 - **Poppins** auto-hospedada: títulos e números em 700, ênfase em 600, corpo em 400.
 
-## 2. Origem dos valores
+## 2. Valores do tema
 
-Os valores de referência foram extraídos dos estilos computados de https://www.bancobs2.com.br em 26/10/2026. A identidade é **inspirada, não copiada**: usa a paleta, a tipografia e o formato dos botões, e mais nada.
+O tema é azul: azul `#0021AF` para ação e marca, Poppins e botões em pílula. Sem logotipo nem elementos institucionais de terceiros.
 
-| Valor extraído | Onde aparece no site de referência | Onde aparece aqui |
+| Valor | Descrição | Onde aparece aqui |
 |---|---|---|
 | `#0021AF` | Fundo do cabeçalho, botões primários, texto de destaque | Cabeçalho, botão primário, links, foco |
 | `#008FF9` | Azul de destaque | Palavra de destaque da frase de resumo e barra de progresso (elementos gráficos sobre o bloco escuro) |
@@ -26,20 +26,20 @@ Os valores de referência foram extraídos dos estilos computados de https://www
 | Poppins 700 / 400 / 600 | Títulos / corpo / ênfase | Mesma divisão de pesos |
 | Botão em pílula, raio de 30px | Primário azul, secundário branco | Mesmo formato |
 
-Valores derivados (não extraídos): `#001A8A` (hover do primário e campos sobre o cabeçalho), `#001262` (primário pressionado) e `#2D55FF` (o azul principal clareado, só no tema escuro, onde `#0021AF` quase some sobre o marinho).
+Valores derivados: `#001A8A` (hover do primário e campos sobre o cabeçalho), `#001262` (primário pressionado) e `#2D55FF` (o azul principal clareado, só no tema escuro, onde `#0021AF` quase some sobre o marinho).
 
 ## 3. Regra: não parecer canal oficial
 
-O site de referência abre com um aviso antifraude. Esta página é pública, então não pode se passar por canal de uma instituição financeira. Regras obrigatórias, verificadas por `tools/check_views.py` (`check_aviso_demo`):
+Esta página é pública, então deve deixar claro que é uma demonstração e não pode se passar por canal de nenhuma instituição. Regras obrigatórias, verificadas por `tools/check_views.py` (`check_aviso_demo`):
 
 1. **Sem logotipo.** A marca da barra é só o texto "Lead Scorer" em Poppins 700. Não há imagem, ícone de marca nem símbolo desenhado em CSS.
-2. **Sem o nome do banco na interface**, exceto no aviso do rodapé. O nome da ferramenta continua "Lead Scorer".
+2. **Sem marca de terceiros na interface.** O nome da ferramenta continua "Lead Scorer".
 3. **Nada que lembre login ou abertura de conta.** Sem campos de senha ou e-mail, sem botões "Entrar" ou "Abrir conta". A tela "Quem é você?" tem o rótulo "Visão de demonstração" e diz que não é um login: o nome só filtra o que aparece na tela.
 4. **Rodapé visível em todas as telas**, fora do `#app` (aparece até se o `data.js` não carregar), com este texto exato:
 
-   > Projeto pessoal de demonstração com dados públicos e fictícios (dataset CRM Sales Predictive Analytics, Kaggle, CC0). Não é um produto, serviço ou canal do Banco BS2.
+   > Projeto pessoal de demonstração com dados públicos e fictícios (dataset CRM Sales Predictive Analytics, Kaggle, CC0).
 
-5. O rodapé é a única exceção à regra "sem números no HTML" de `tools/check_app.py` (ele contém "CC0" e o nome do banco), e o texto exato é conferido por `check_aviso_demo`.
+5. O rodapé é a única exceção à regra "sem números no HTML" de `tools/check_app.py` (ele contém "CC0"), e o texto exato é conferido por `check_aviso_demo`.
 
 ## 4. Tokens (CSS custom properties em `solution/app/style.css`)
 

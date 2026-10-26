@@ -598,7 +598,7 @@ def check_sem_numeros_a_mao(app_dir: Path):
     js = (app_dir / "app.js").read_text(encoding="utf-8")
     text = re.sub(r"<(script|style)\b.*?</\1>", " ", html, flags=re.S | re.I)
     text = re.sub(r"<!--.*?-->", " ", text, flags=re.S)
-    text = re.sub(r"<footer class=\"disclaimer\".*?</footer>", " ", text, flags=re.S)   # aviso obrigatório (texto jurídico fixo, tem "CC0" e o nome do banco); conferido em check_aviso (check_views)
+    text = re.sub(r"<footer class=\"disclaimer\".*?</footer>", " ", text, flags=re.S)   # aviso obrigatório (texto fixo, tem "CC0"); conferido em check_aviso (check_views)
     text = re.sub(r"<[^>]+>", " ", text).replace("1:1", "")     # "1:1" é o nome do ritual (pauta do 1:1), não um dado
     fails = []
     if re.search(r"\d", text):

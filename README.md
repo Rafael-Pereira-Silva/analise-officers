@@ -1,6 +1,6 @@
 # Análise Officers — Lead Scorer: priorização de pipeline com frescor do deal
 
-> Projeto pessoal de demonstração com dados públicos e fictícios (dataset CRM Sales Predictive Analytics, Kaggle, CC0). Não é um produto, serviço ou canal do Banco BS2 e não usa dados do banco.
+> Projeto pessoal de demonstração com dados públicos e fictícios (dataset CRM Sales Predictive Analytics, Kaggle, CC0).
 
 > Esta versão pública reorganiza a documentação do experimento original; métodos, números, decisões e erros registrados são os mesmos.
 
@@ -60,7 +60,7 @@ O build é determinístico: rodar duas vezes gera os mesmos bytes. A data de ref
 2. **Os dados derrubaram a ideia óbvia.** Um score por atributos dá perto de 63% para todo deal. O que separa é o ciclo: nenhum deal foi ganho depois de 138 dias, e 81% dos Engaging já passaram disso. Antes de usar qualquer coisa, limpei o que quebra o join e o que vaza: "GTXPro" contra "GTX Pro" (1.480 deals sumiriam) e os 1.425 deals sem conta, todos abertos, que funcionariam como detector de zumbi ([qualidade dos dados](docs/DATA_QUALITY.md)).
 3. **O score.** Chance de ganho em 90 dias olhando só a idade do deal, vezes o preço de tabela, numa escala de 0 a 100. A curva cai com a idade desde o primeiro dia (faixas de idade com regressão isotônica) e é treinada só com as fotos do mesmo ponto do trimestre que a data do modelo. Os limites das listas saem da curva (Foque até a chance cair à metade da de um deal novo; Limpe quando ela fica abaixo de 2% ou o deal passa do maior ciclo já ganho), não de um "se idade > 138". O vendedor não entra, e nenhum atributo entrou depois do teste ([score e validação](docs/SCORING.md)).
 4. **Validação sempre no tempo.** Quatro cortes passados (30/06, 31/07, 31/08 e 30/09/2017), cada um com um modelo que só vê o que o CRM sabia naquele dia, contra três baselines: valor, recência e sorteio. O critério para "vencer" foi fixado antes do primeiro número e foi mantido na correção da curva. Um teste troca tudo o que acontece depois do corte por valores aleatórios e exige que o modelo e os scores não mudem.
-5. **Interface de decisão.** Tela de entrada "Quem é você?" (vendedor ou manager), frase de ação no topo ("foque em N, reative M, limpe K"), uma lista por ação, explicação por deal e o modo teste, para a Head de RevOps (hipotética) ver o score contra a história antes de confiar nele. A primeira versão tinha um visual sóbrio, em marinho, off-white e um único dourado de ação; o tema atual o substituiu e é inspirado na paleta do Banco BS2 (só inspiração: o projeto não tem relação com o banco, ver o aviso no topo). Os tokens, o contraste e as decisões estão em [`docs/DESIGN.md`](docs/DESIGN.md) e em [`process-log/09_tema-bs2.md`](process-log/09_tema-bs2.md).
+5. **Interface de decisão.** Tela de entrada "Quem é você?" (vendedor ou manager), frase de ação no topo ("foque em N, reative M, limpe K"), uma lista por ação, explicação por deal e o modo teste, para a Head de RevOps (hipotética) ver o score contra a história antes de confiar nele. A primeira versão tinha um visual sóbrio, em marinho, off-white e um único dourado de ação; o tema atual o substituiu: um tema azul (azul `#0021AF`, Poppins, botões em pílula). Os tokens, o contraste e as decisões estão em [`docs/DESIGN.md`](docs/DESIGN.md) e em [`process-log/09_tema-azul.md`](process-log/09_tema-azul.md).
 
 ---
 
@@ -219,7 +219,7 @@ Passo a passo:
 8. **Visões por perfil, arquitetura de produção e design.** Escrevi a especificação ([`PROMPT_VISOES_E_DESIGN.md`](PROMPT_VISOES_E_DESIGN.md)) com três peças:
    - a entrada por perfil: "Minha semana" para o vendedor, "Meu time" para o manager, com pauta do 1:1 e higiene de carteira (sem ranking de vendedor), e uma visão completa para RevOps;
    - a segregação real de dados documentada como arquitetura de produção ([`ARQUITETURA_PRODUCAO.md`](docs/ARQUITETURA_PRODUCAO.md));
-   - uma direção visual (a identidade da primeira versão, em marinho e dourado, foi depois substituída pelo tema atual; [`DESIGN.md`](docs/DESIGN.md) e [`09_tema-bs2.md`](process-log/09_tema-bs2.md)).
+   - uma direção visual (a identidade da primeira versão, em marinho e dourado, foi depois substituída pelo tema atual; [`DESIGN.md`](docs/DESIGN.md) e [`09_tema-azul.md`](process-log/09_tema-azul.md)).
    A interface passou por três rodadas de screenshots com crítica e correção, e por auditoria de acessibilidade com axe-core ([registro](process-log/08_visoes-e-design.md)).
 
 **Onde eu intervim durante a execução** (registrado nos logs por bloco e no [`DECISIONS.md`](docs/DECISIONS.md); o export integral da conversa não está nesta versão pública, ver [`chat-exports/`](process-log/chat-exports/LEIA-ME.md)):

@@ -1,8 +1,8 @@
 """Screenshots do loop visual de design (matriz enxuta) e do conjunto final.
 
 Uso (cwd = solution/):
-    python tools/design_shots.py --round r1        # process-log/screenshots/tema-bs2/r1/
-    python tools/design_shots.py --final           # process-log/screenshots/tema-bs2/final-*.png
+    python tools/design_shots.py --round r1        # process-log/screenshots/tema-azul/r1/
+    python tools/design_shots.py --final           # process-log/screenshots/tema-azul/final-*.png
 
 Conjunto final: entrada, vendedor e manager (claro, 390 e 1280) e vendedor escuro (390 e 1280).
 Matriz da rodada: 2 perfis x {entrada, aba principal, terceira tela} x {390, 1280} x {claro, escuro}.
@@ -91,7 +91,7 @@ SCENES = [
 
 
 def run_round(name: str) -> int:
-    out = SHOTS / "tema-bs2" / name
+    out = SHOTS / "tema-azul" / name
     out.mkdir(parents=True, exist_ok=True)
     errors: list[str] = []
     n = 0
@@ -113,7 +113,7 @@ def run_round(name: str) -> int:
 
 
 def run_final() -> int:
-    OUT = SHOTS / "tema-bs2"
+    OUT = SHOTS / "tema-azul"
     OUT.mkdir(parents=True, exist_ok=True)
     errors: list[str] = []
     v = VENDEDOR.replace(" ", "+")

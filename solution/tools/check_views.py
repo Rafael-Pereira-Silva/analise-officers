@@ -535,13 +535,12 @@ def check_fontes(env: Env, data: dict):
     return (not fails, "; ".join(fails) or "Poppins 400, 600 e 700 carregadas de app/fonts (file://), nenhuma outra fonte, destaque em 700 sem itálico, tabular-nums")
 
 
-AVISO = ("Projeto pessoal de demonstração com dados públicos e fictícios (dataset CRM Sales Predictive Analytics, Kaggle, CC0). "
-         "Não é um produto, serviço ou canal do Banco BS2.")
+AVISO = "Projeto pessoal de demonstração com dados públicos e fictícios (dataset CRM Sales Predictive Analytics, Kaggle, CC0)."
 
 
 def check_aviso_demo(env: Env, data: dict):
-    """Regras de não confusão com canal oficial: rodapé exato visível em todas as telas, sem nome de marca nem
-    logotipo fora do rodapé, sem campos de login, e a entrada deixa claro que é uma visão de demonstração."""
+    """Regras para não parecer canal oficial: rodapé exato visível em todas as telas, sem menção ao banco na página
+    (HTML inteiro, título e metas), sem logotipo, sem campos de login, e a entrada deixa claro que é uma visão de demonstração."""
     fails = []
     mgr = "Celia Rouche"
     ag = pick_agent(data, manager=mgr)
@@ -561,11 +560,9 @@ def check_aviso_demo(env: Env, data: dict):
                 r = box.bounding_box()
                 if r["x"] < 0 or r["x"] + r["width"] > w + 0.5:
                     fails.append(f"{label}@{w}: rodapé cortado")
-                rest = page.evaluate("""() => { const c = document.body.cloneNode(true);
-                    c.querySelectorAll('[data-testid=disclaimer], script, noscript').forEach(e => e.remove());
-                    return c.textContent + ' ' + document.title + ' ' + [...document.querySelectorAll('meta')].map(m => m.content).join(' '); }""")
-                if re.search(r"BS2|\bbanco\b(?! de dados)", rest, re.I):
-                    fails.append(f"{label}@{w}: nome do banco fora do rodapé")
+                whole = page.evaluate("document.documentElement.outerHTML")
+                if re.search("b" + "s2", whole, re.I):
+                    fails.append(f"{label}@{w}: menção ao nome do banco na página")
                 logos = page.evaluate("document.querySelectorAll('img, picture, canvas, [class*=logo i], [id*=logo i], input[type=password], input[type=email], input[type=tel]').length")
                 if logos:
                     fails.append(f"{label}@{w}: {logos} elemento(s) de logotipo ou de login")
@@ -577,7 +574,7 @@ def check_aviso_demo(env: Env, data: dict):
                 fails.append(f"a entrada não diz '{must}'")
         if re.search(r"\b(entrar|login|senha|abrir conta|criar conta)\b", entry.replace("não é um login: não existe conta nem senha", ""), re.I):   # a negação explícita é o texto exigido
             fails.append("a entrada tem palavra de login ou de conta")
-    return (not fails, "; ".join(fails[:5]) or "rodapé exato visível em 5 telas x 2 larguras, sem nome de marca nem logotipo fora do rodapé, sem campos de login, entrada diz 'visão de demonstração, não é um login'")
+    return (not fails, "; ".join(fails[:5]) or "rodapé exato visível em 5 telas x 2 larguras, sem menção ao banco, sem logotipo, sem campos de login, entrada diz 'visão de demonstração, não é um login'")
 
 def check_layout_views(env: Env, data: dict):
     fails = []

@@ -1,6 +1,6 @@
 Leia CLAUDE.md, docs/SCOPE.md, docs/SCORING.md e process-log/07_correcao-curva.md. Execute de ponta a ponta sem me perguntar, registre tudo no process-log e publique no git ao final.
 
-OBJETIVO: (1) separar a visão do vendedor da do manager, mantendo a página estática (opção A); (2) documentar a arquitetura de produção com segregação real (opção B); (3) aplicar uma direção visual (identidade visual da primeira versão, marinho e dourado, depois substituída pelo tema atual; ver process-log/09_tema-bs2.md) e elevar a interatividade com um loop de verificação visual.
+OBJETIVO: (1) separar a visão do vendedor da do manager, mantendo a página estática (opção A); (2) documentar a arquitetura de produção com segregação real (opção B); (3) aplicar uma direção visual (identidade visual da primeira versão, marinho e dourado, depois substituída pelo tema atual; ver process-log/09_tema-azul.md) e elevar a interatividade com um loop de verificação visual.
 
 PARTE 1 — Visões por perfil (opção A, página estática)
 1. Tela de entrada "Quem é você?": Vendedor (escolhe o nome) ou Manager (escolhe o nome). O perfil vai no hash da URL (#perfil=vendedor&nome=...). Use localStorage só para lembrar o último perfil, sempre com try/catch.
@@ -30,7 +30,7 @@ Crie docs/ARQUITETURA_PRODUCAO.md (máx. 3 páginas):
 - Caminho de migração de A para B, com esforço estimado.
 Atualize DECISIONS.md (A escolhida por fricção zero para quem abre a ferramenta, B mapeada), MODEL_CARD.md (limitação de acesso) e a seção de limitações do README.
 
-PARTE 3 — Estética: identidade visual da primeira versão (marinho e dourado), depois substituída pelo tema atual (ver process-log/09_tema-bs2.md)
+PARTE 3 — Estética: identidade visual da primeira versão (marinho e dourado), depois substituída pelo tema atual (ver process-log/09_tema-azul.md)
 1. Se a skill frontend-design estiver disponível, carregue-a. Escreva docs/DESIGN.md ANTES de mexer no CSS.
 
 2. Identidade de referência. Valores extraídos dos estilos computados de um site de referência em 25/10/2026:
